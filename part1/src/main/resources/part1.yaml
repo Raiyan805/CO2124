@@ -1,9 +1,482 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
   title: part1
   description: part1
   version: 1.0.0
 servers:
-  - url: 'https'
+- url: https://virtserver.swaggerhub.com/co2124/Coursework/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: http://localhost:8080/
+  description: local server
+tags:
+- name: Patients
+  description: Everything about patients
+- name: Doctors
+  description: Everything about doctors
+- name: Appointments
+  description: Everything about appointments
+- name: Medical Records
+  description: Everything about medical records
 paths:
-  
+  /patients:
+    get:
+      tags:
+      - Patients
+      summary: List all patients
+      responses:
+        "200":
+          description: Successfully retrieved list of patients
+        "400":
+          description: Bad request
+    post:
+      tags:
+      - Patients
+      summary: Create a new patient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+            example:
+              id: 1
+              name: John Smith
+              email: John.Smith@gmail.com
+              phoneNumber: 1234567890
+              address: "10 Grover Drive, Leicester"
+        required: true
+      responses:
+        "201":
+          description: Patient created successfully
+        "400":
+          description: Invalid input
+  /patients/{id}:
+    get:
+      tags:
+      - Patients
+      summary: Retrieve a specific patient by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully retrieved patient
+        "404":
+          description: Patient not found
+    put:
+      tags:
+      - Patients
+      summary: Update a specific patient by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+            example:
+              id: 1
+              name: John Smith
+              email: John.Smith_updated@gmail.com
+              phoneNumber: 1234567890
+              address: "12 Grover Road, London"
+        required: true
+      responses:
+        "200":
+          description: Patient updated successfully
+        "400":
+          description: Invalid input
+    delete:
+      tags:
+      - Patients
+      summary: Delete a specific patient by ID
+      description: |
+        Deleting a patient will also delete **all appointments** associated with this patient and **all associated medical records**.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Patient deleted successfully
+        "404":
+          description: Patient not found
+  /patients/{id}/appointments:
+    get:
+      tags:
+      - Patients
+      summary: List all appointments for a specific patient
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully retrieved appointments
+        "404":
+          description: Patient not found
+  /patients/{id}/medical-records:
+    get:
+      tags:
+      - Patients
+      summary: List all medical records for a specific patient
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully retrieved medical records
+        "404":
+          description: Patient not found
+  /doctors:
+    get:
+      tags:
+      - Doctors
+      summary: List all doctors
+      responses:
+        "200":
+          description: Successfully retrieved list of doctors
+        "400":
+          description: Bad request
+    post:
+      tags:
+      - Doctors
+      summary: Create a new doctor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+            example:
+              id: 5
+              name: Dr. Jones
+              specialisation: Cardiology
+              email: dr.jones@gmail.com
+              phoneNumber: 1122334455
+        required: true
+      responses:
+        "201":
+          description: Doctor created successfully
+        "400":
+          description: Invalid input
+  /doctors/{id}:
+    get:
+      tags:
+      - Doctors
+      summary: Retrieve a specific doctor by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully retrieved doctor
+        "404":
+          description: Doctor not found
+    put:
+      tags:
+      - Doctors
+      summary: Update a specific doctor by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+            example:
+              id: 5
+              name: Dr. Jones
+              specialisation: Neurology
+              email: dr.jones_updated@gmail.com
+              phoneNumber: 6677889900
+        required: true
+      responses:
+        "200":
+          description: Doctor updated successfully
+        "400":
+          description: Invalid input
+    delete:
+      tags:
+      - Doctors
+      summary: Delete a specific doctor by ID
+      description: |
+        Deleting a doctor will **delete all appointments** associated with this doctor, but **patients and medical records will not be deleted**.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Doctor deleted successfully
+        "404":
+          description: Doctor not found
+  /doctors/{id}/appointments:
+    get:
+      tags:
+      - Doctors
+      summary: List all appointments for a specific doctor
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully retrieved appointments
+        "404":
+          description: Doctor not found
+  /appointments:
+    get:
+      tags:
+      - Appointments
+      summary: List all appointments
+      responses:
+        "200":
+          description: Successfully retrieved list of appointments
+        "400":
+          description: Bad request
+    post:
+      tags:
+      - Appointments
+      summary: Create a new appointment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+            example:
+              id: 42
+              appointmentDate: 2025-04-03T13:25:31.211Z
+              status: Scheduled
+        required: true
+      responses:
+        "201":
+          description: Appointment created successfully
+        "400":
+          description: Invalid input
+  /appointments/{id}:
+    get:
+      tags:
+      - Appointments
+      summary: Retrieve a specific appointment by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully retrieved appointment
+        "404":
+          description: Appointment not found
+    put:
+      tags:
+      - Appointments
+      summary: Update a specific appointment by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+            example:
+              id: 42
+              appointmentDate: 2025-04-03T13:25:31.211Z
+              status: Cancelled
+              notes: Patient has rescheduled for a later date
+        required: true
+      responses:
+        "200":
+          description: Appointment updated successfully
+        "400":
+          description: Invalid input
+    delete:
+      tags:
+      - Appointments
+      summary: Delete a specific appointment by ID
+      description: |
+        Deleting an appointment will also delete the **associated medical record**.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Appointment deleted successfully
+        "404":
+          description: Appointment not found
+  /appointments/{id}/medical-record:
+    get:
+      tags:
+      - Appointments
+      summary: Retrieve the medical record for a specific appointment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully retrieved medical record
+        "404":
+          description: Medical record not found
+  /medical-records:
+    post:
+      tags:
+      - Medical Records
+      summary: Create a new medical record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalRecord'
+            example:
+              id: 445
+              recordDate: 2025-04-03T13:28:17.878Z
+              diagnosis: Asthma
+              treatment: Inhaler
+              notes: Inhaler to be taken twice a day
+        required: true
+      responses:
+        "201":
+          description: Medical record created successfully
+        "400":
+          description: Invalid input
+components:
+  schemas:
+    Patient:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+        appointments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Appointment'
+    Doctor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        specialisation:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        appointments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Appointment'
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        appointmentDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - Scheduled
+          - Completed
+          - Cancelled
+        notes:
+          type: string
+          nullable: true
+        patient:
+          $ref: '#/components/schemas/Patient'
+        doctor:
+          $ref: '#/components/schemas/Doctor'
+        medicalRecord:
+          $ref: '#/components/schemas/MedicalRecord'
+    MedicalRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        recordDate:
+          type: string
+          format: date-time
+        diagnosis:
+          type: string
+        treatment:
+          type: string
+        notes:
+          type: string
+          nullable: true
+        appointment:
+          $ref: '#/components/schemas/Appointment'
