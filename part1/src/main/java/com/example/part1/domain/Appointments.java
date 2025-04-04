@@ -29,7 +29,7 @@ public class Appointments {
     private Doctor doctor;
 
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonBackReference("record-appointments")
     private Record medicalRecord;
 
     // Getters and Setters
