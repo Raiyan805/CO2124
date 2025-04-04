@@ -18,7 +18,7 @@ public class Record {
 
     @OneToOne
     @JoinColumn(name = "appointment_id")
-    @JsonManagedReference
+    @JsonManagedReference("record-appointments")
     private Appointments appointment;
 
     // getters and setters

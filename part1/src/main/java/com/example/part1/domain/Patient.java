@@ -17,7 +17,7 @@ public class Patient {
     private String address;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("patient-appointments")
     private List<Appointments> appointments;
 
     // getters and setters
