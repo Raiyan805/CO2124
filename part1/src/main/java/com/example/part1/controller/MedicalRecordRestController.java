@@ -17,6 +17,9 @@ public class MedicalRecordRestController {
     // Create a new medical record
     @PostMapping
     public ResponseEntity<Record> createMedicalRecord(@RequestBody Record medicalRecord) {
+        if (medicalRecord == null) {
+            return ResponseEntity.notFound().build();
+        }
         Record createdMedicalRecord = medicalRecordRepository.save(medicalRecord);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMedicalRecord);
     }
