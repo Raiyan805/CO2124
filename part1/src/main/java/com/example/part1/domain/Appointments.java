@@ -20,12 +20,12 @@ public class Appointments {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    @JsonBackReference
+    @JsonBackReference("patient-appointments")
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
-    @JsonBackReference
+    @JsonBackReference("doctor-appointments")
     private Doctor doctor;
 
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
