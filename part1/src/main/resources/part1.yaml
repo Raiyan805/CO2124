@@ -41,7 +41,7 @@ paths:
               id: 1
               name: John Smith
               email: John.Smith@gmail.com
-              phoneNumber: 1234567890
+              phoneNumber: "1234567890"
               address: "10 Grover Drive, Leicester"
         required: true
       responses:
@@ -88,7 +88,7 @@ paths:
               id: 1
               name: John Smith
               email: John.Smith_updated@gmail.com
-              phoneNumber: 1234567890
+              phoneNumber: "1234567890"
               address: "12 Grover Road, London"
         required: true
       responses:
@@ -175,7 +175,7 @@ paths:
               name: Dr. Jones
               specialisation: Cardiology
               email: dr.jones@gmail.com
-              phoneNumber: 1122334455
+              phoneNumber: "1122334455"
         required: true
       responses:
         "201":
@@ -222,7 +222,7 @@ paths:
               name: Dr. Jones
               specialisation: Neurology
               email: dr.jones_updated@gmail.com
-              phoneNumber: 6677889900
+              phoneNumber: "6677889900"
         required: true
       responses:
         "200":
