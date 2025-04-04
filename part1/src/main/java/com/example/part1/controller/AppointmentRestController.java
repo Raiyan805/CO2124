@@ -24,6 +24,9 @@ public class AppointmentRestController {
     // Create a new appointment
     @PostMapping
     public ResponseEntity<Appointments> createAppointment(@RequestBody Appointments appointment) {
+        if (appointment == null) {
+            return ResponseEntity.badRequest().build();
+        }
         Appointments createdAppointment = appointmentRepository.save(appointment);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAppointment);
     }
@@ -48,11 +51,11 @@ public class AppointmentRestController {
     // Update a specific appointment by ID
     @PutMapping("/{id}")
     public ResponseEntity<Appointments> updateAppointment(@PathVariable Long id, @RequestBody Appointments updatedAppointment) {
-        Appointments existingAppointment = appointmentRepository.findById(id)
-                .orElse(null);
-        if (existingAppointment == null) {
-            return ResponseEntity.notFound().build();
+        if (updatedAppointment == null) {
+            return ResponseEntity.badRequest().build();
         }
+        Appointments existingAppointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
         existingAppointment.setAppointmentDate(updatedAppointment.getAppointmentDate());
         existingAppointment.setStatus(updatedAppointment.getStatus());
         existingAppointment.setNotes(updatedAppointment.getNotes());
@@ -88,7 +91,7 @@ public class AppointmentRestController {
         }
         Record medicalRecord = appointment.getMedicalRecord();
         if (medicalRecord == null) {
-            throw new RuntimeException("No medical record found for this appointment");
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(medicalRecord);
     }
