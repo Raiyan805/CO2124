@@ -4,8 +4,6 @@ info:
   description: part1
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/co2124/Coursework/1.0.0
-  description: SwaggerHub API Auto Mocking
 - url: http://localhost:8080/
   description: local server
 tags:
