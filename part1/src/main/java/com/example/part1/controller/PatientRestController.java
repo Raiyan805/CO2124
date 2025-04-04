@@ -45,7 +45,10 @@ public class PatientRestController {
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
         Patient patient = patientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+                .orElse(null);
+        if (patient == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(patient);
     }
 

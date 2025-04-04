@@ -34,11 +34,14 @@ public class AppointmentRestController {
         return appointmentRepository.findAll();
     }
 
-    // Retrieve a specific appointment by ID
+    // Retrieve a specific appointment by IDf
     @GetMapping("/{id}")
     public ResponseEntity<Appointments> getAppointmentById(@PathVariable Long id) {
         Appointments appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+                .orElse(null);
+        if (appointment == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(appointment);
     }
 
@@ -46,8 +49,10 @@ public class AppointmentRestController {
     @PutMapping("/{id}")
     public ResponseEntity<Appointments> updateAppointment(@PathVariable Long id, @RequestBody Appointments updatedAppointment) {
         Appointments existingAppointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
-
+                .orElse(null);
+        if (existingAppointment == null) {
+            return ResponseEntity.notFound().build();
+        }
         existingAppointment.setAppointmentDate(updatedAppointment.getAppointmentDate());
         existingAppointment.setStatus(updatedAppointment.getStatus());
         existingAppointment.setNotes(updatedAppointment.getNotes());
@@ -60,8 +65,11 @@ public class AppointmentRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
         Appointments appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+                .orElse(null);
 
+        if (appointment == null) {
+            return ResponseEntity.notFound().build();
+        }
         if (appointment.getMedicalRecord() != null) {
             medicalRecordRepository.delete(appointment.getMedicalRecord());
         }
@@ -74,8 +82,10 @@ public class AppointmentRestController {
     @GetMapping("/{id}/medical-record")
     public ResponseEntity<Record> getMedicalRecordForAppointment(@PathVariable Long id) {
         Appointments appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
-
+                .orElse(null);
+        if (appointment == null) {
+            return ResponseEntity.notFound().build();
+        }
         Record medicalRecord = appointment.getMedicalRecord();
         if (medicalRecord == null) {
             throw new RuntimeException("No medical record found for this appointment");
