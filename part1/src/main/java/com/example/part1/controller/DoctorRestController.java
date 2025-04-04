@@ -24,6 +24,9 @@ public class DoctorRestController {
     // Create a new doctor
     @PostMapping
     public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
+        if (doctor == null) {
+            return ResponseEntity.badRequest().build();
+        }
         Doctor createdDoctor = doctorRepository.save(doctor);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDoctor);
     }
@@ -38,7 +41,10 @@ public class DoctorRestController {
     @GetMapping("/{id}")
     public ResponseEntity<Doctor> getDoctorById(@PathVariable Long id) {
         Doctor doctor = doctorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+                .orElse(null);
+        if (doctor == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(doctor);
     }
 
@@ -47,7 +53,9 @@ public class DoctorRestController {
     public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @RequestBody Doctor updatedDoctor) {
         Doctor existingDoctor = doctorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
-
+        if (updatedDoctor == null) {
+            return ResponseEntity.badRequest().build();
+        }
         existingDoctor.setName(updatedDoctor.getName());
         existingDoctor.setSpecialisation(updatedDoctor.getSpecialisation());
         existingDoctor.setEmail(updatedDoctor.getEmail());
@@ -61,21 +69,23 @@ public class DoctorRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
         Doctor doctor = doctorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
-
-        for (Appointments appointment : doctor.getAppointments()) {
-            appointmentRepository.delete(appointment);
+                .orElse(null);
+        if (doctor == null) {
+            return ResponseEntity.notFound().build();
         }
-
+        appointmentRepository.deleteAll(doctor.getAppointments());
         doctorRepository.delete(doctor);
         return ResponseEntity.noContent().build();
     }
 
     // List all appointments for a specific doctor
     @GetMapping("/{id}/appointments")
-    public List<Appointments> getAppointmentsForDoctor(@PathVariable Long id) {
+    public ResponseEntity<List<Appointments>> getAppointmentsForDoctor(@PathVariable Long id) {
         Doctor doctor = doctorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
-        return doctor.getAppointments();
+                .orElse(null);
+        if (doctor == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(doctor.getAppointments());
     }
 }
