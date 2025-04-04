@@ -31,6 +31,9 @@ public class PatientRestController {
     // Create a new patient
     @PostMapping
     public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
+        if (patient == null) {
+            return ResponseEntity.badRequest().build();
+        }
         Patient createdPatient = patientRepository.save(patient);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPatient);
     }
@@ -55,6 +58,9 @@ public class PatientRestController {
     // Update a specific patient by ID
     @PutMapping("/{id}")
     public ResponseEntity<Patient> updatePatient(@PathVariable Long id, @RequestBody Patient updatedPatient) {
+        if (updatedPatient == null) {
+            return ResponseEntity.badRequest().build();
+        }
         Patient existingPatient = patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
 
@@ -71,8 +77,10 @@ public class PatientRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
         Patient patient = patientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
-
+                .orElse(null);
+        if (patient == null) {
+            return ResponseEntity.notFound().build();
+        }
         // Cascade delete appointments (due to orphanRemoval=true)
         for (Appointments appointment : patient.getAppointments()) {
             if (appointment.getMedicalRecord() != null) {
@@ -87,23 +95,29 @@ public class PatientRestController {
 
     // List all appointments for a specific patient
     @GetMapping("/{id}/appointments")
-    public List<Appointments> getAppointmentsForPatient(@PathVariable Long id) {
+    public ResponseEntity<List<Appointments>> getAppointmentsForPatient(@PathVariable Long id) {
         Patient patient = patientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
-        return patient.getAppointments();
+                .orElse(null);
+        if (patient == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(patient.getAppointments());
     }
 
     // List all medical records for a specific patient
     @GetMapping("/{id}/medical-records")
-    public List<Record> getMedicalRecordsForPatient(@PathVariable Long id) {
+    public ResponseEntity<List<Record>> getMedicalRecordsForPatient(@PathVariable Long id) {
         Patient patient = patientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+                .orElse(null);
+        if (patient == null) {
+            return ResponseEntity.notFound().build();
+        }
         List<Record> medicalRecords = new ArrayList<>();
         for (Appointments appointment : patient.getAppointments()) {
             if (appointment.getMedicalRecord() != null) {
                 medicalRecords.add(appointment.getMedicalRecord());
             }
         }
-        return medicalRecords;
+        return ResponseEntity.ok(medicalRecords);
     }
 }
