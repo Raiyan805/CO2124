@@ -1,5 +1,6 @@
 package com.example.part1.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class Record {
 
     @OneToOne
     @JoinColumn(name = "appointment_id")
+    @JsonManagedReference
     private Appointments appointment;
 
     // getters and setters
