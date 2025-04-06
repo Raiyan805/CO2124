@@ -37,7 +37,7 @@ public class AppointmentRestController {
         return appointmentRepository.findAll();
     }
 
-    // Retrieve a specific appointment by IDf
+    // Retrieve a specific appointment by ID
     @GetMapping("/{id}")
     public ResponseEntity<Appointments> getAppointmentById(@PathVariable Long id) {
         Appointments appointment = appointmentRepository.findById(id)

@@ -20,7 +20,7 @@ public class Doctor {
     @JsonManagedReference("doctor-appointments")
     private List<Appointments> appointments;
 
-    // getters and setters
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -30,7 +30,6 @@ public class Doctor {
         this.id = id;
     }
 
-    // Getter and Setter for name
     public String getName() {
         return name;
     }
@@ -39,7 +38,6 @@ public class Doctor {
         this.name = name;
     }
 
-    // Getter and Setter for specialisation
     public String getSpecialisation() {
         return specialisation;
     }
@@ -48,7 +46,6 @@ public class Doctor {
         this.specialisation = specialisation;
     }
 
-    // Getter and Setter for email
     public String getEmail() {
         return email;
     }
@@ -57,7 +54,6 @@ public class Doctor {
         this.email = email;
     }
 
-    // Getter and Setter for phoneNumber
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -66,7 +62,6 @@ public class Doctor {
         this.phoneNumber = phoneNumber;
     }
 
-    // Getter and Setter for appointments
     public List<Appointments> getAppointments() {
         return appointments;
     }

@@ -21,7 +21,7 @@ public class Record {
     @JsonManagedReference("record-appointments")
     private Appointments appointment;
 
-    // getters and setters
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -31,7 +31,6 @@ public class Record {
         this.id = id;
     }
 
-    // Getter and Setter for recordDate
     public LocalDateTime getRecordDate() {
         return recordDate;
     }
@@ -40,7 +39,6 @@ public class Record {
         this.recordDate = recordDate;
     }
 
-    // Getter and Setter for diagnosis
     public String getDiagnosis() {
         return diagnosis;
     }
@@ -49,7 +47,6 @@ public class Record {
         this.diagnosis = diagnosis;
     }
 
-    // Getter and Setter for treatment
     public String getTreatment() {
         return treatment;
     }
@@ -58,7 +55,6 @@ public class Record {
         this.treatment = treatment;
     }
 
-    // Getter and Setter for notes
     public String getNotes() {
         return notes;
     }
@@ -67,7 +63,6 @@ public class Record {
         this.notes = notes;
     }
 
-    // Getter and Setter for appointment
     public Appointments getAppointment() {
         return appointment;
     }
