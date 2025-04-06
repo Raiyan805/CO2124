@@ -6,6 +6,12 @@
 		"_exporter_id": "43765067",
 		"_collection_link": "https://dustin-2252206.postman.co/workspace/Dustin's-Workspace~32c0eeaf-230b-4e16-8692-8ae72e507b4d/collection/43765067-0d877aeb-5e4d-4484-8c50-3845ab0a63a7?action=share&source=collection_link&creator=43765067"
 	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		}
+	],
 	"item": [
 		{
 			"name": "getAllPatients",
